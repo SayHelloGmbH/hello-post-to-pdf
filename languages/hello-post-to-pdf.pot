@@ -1,0 +1,40 @@
+# Copyright (C) 2019 Say Hello GmbH (hello@sayhello.ch)
+# This file is distributed under the same license as the Post To PDF plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Post To PDF 0.0.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/hello-post-to-pdf\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2019-03-15T07:47:10+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.1.0\n"
+"X-Domain: hello-post-to-pdf\n"
+
+#. Plugin Name of the plugin
+msgid "Post To PDF"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://gitlab.com/say-hello/plugins/hello-post-to-pdf"
+msgstr ""
+
+#. Description of the plugin
+msgid "Adds a URL suffix which allows the site visitor to download the selected Post as a PDF."
+msgstr ""
+
+#. Author of the plugin
+msgid "Say Hello GmbH (hello@sayhello.ch)"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://sayhello.ch/"
+msgstr ""
+
+#: hello-post-to-pdf.php:17
+msgctxt "Plugin warning message"
+msgid "“%1$s” requires PHP %2$s (or newer) and WordPress %3$s (or newer) to function properly. Your site is using PHP %4$s and WordPress %5$s. Please upgrade. The plugin has been automatically deactivated."
+msgstr ""
