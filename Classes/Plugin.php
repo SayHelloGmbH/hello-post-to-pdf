@@ -9,6 +9,7 @@ class Plugin
 	public $name = '';
 	public $version = '';
 	public $file = '';
+	private $allowed_post_types;
 
 	/**
 	 * Creates an instance if one isn't already available,
@@ -39,6 +40,8 @@ class Plugin
 	 */
 	private function run()
 	{
+		$this->allowed_post_types = apply_filters('hello-post-to-pdf/allowed-post-types', ['post']);
+
 		add_action('plugins_loaded', [$this, 'loadPluginTextdomain']);
 		register_activation_hook(self::$instance->file, [$this, 'activate']);
 		add_action('init', [$this, 'rewrite']);
@@ -98,6 +101,16 @@ class Plugin
 	{
 		// Check theme / child theme directory
 		// Use the filter in your theme to customize the theme template array
+		
+		if (!in_array(get_post_type(), $this->allowed_post_types)) {
+			wp_die('<p>'._x('PDF generation is not available for this content type.', 'Error message', 'hello-post-to-pdf').'</p>'.
+				sprintf(
+					'<p><a href="%1$s">%2$s</a></p>',
+					get_permalink(),
+					_x('View original content', 'Link text on error page', 'hello-post-to-pdf')
+				), 403);
+		}
+
 		$template = locate_template(apply_filters('hello-post-to-pdf/theme-templates', ['single-hello-post-to-pdf.php']));
 		if ($template == '') {
 			// Check plugin directory next
@@ -126,7 +139,14 @@ class Plugin
 						var_dump($error);
 						exit;
 					}
-					wp_die(_x('An unavoidable error occurred when creating the PDF.', 'Error message', 'hello-post-to-pdf'), 500);
+
+					wp_die('<p>'._x('An unavoidable error occurred when creating the PDF.', 'Error message', 'hello-post-to-pdf').'</p>'.
+						sprintf(
+							'<p><a href="%1$s">%2$s</a></p>',
+							get_permalink(),
+							_x('View original content', 'Link text on error page', 'hello-post-to-pdf')
+						), 500);
+
 					exit;
 				}
 			}
@@ -137,7 +157,13 @@ class Plugin
 					var_dump($error);
 					exit;
 				}
-				wp_die(_x('An unavoidable error occurred when saving the PDF to the server.', 'Error message', 'hello-post-to-pdf'), 500);
+				wp_die('<p>'._x('An unavoidable error occurred when saving the PDF to the server.', 'Error message', 'hello-post-to-pdf').'</p>'.
+						sprintf(
+							'<p><a href="%1$s">%2$s</a></p>',
+							get_permalink(),
+							_x('View original content', 'Link text on error page', 'hello-post-to-pdf')
+						), 500);
+
 				exit;
 			}
 		}
