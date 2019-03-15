@@ -35,7 +35,13 @@
 		}
 		.c-posttopdf__thumbnail {
 			display: block;
+			width: 100%;
 			margin: 1rem 0;
+		}
+		img {
+			page-break-before: auto;
+			page-break-after: auto;
+			page-break-inside: avoid;
 		}
 	</style>
 </head>

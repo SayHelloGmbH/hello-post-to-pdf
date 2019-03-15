@@ -1,7 +1,7 @@
 <?php
 namespace SayHello\PostToPDF;
 
-// use mikehaertl\wkhtmlto\Pdf;
+use mikehaertl\wkhtmlto\Pdf;
 
 class Plugin
 {
@@ -17,7 +17,7 @@ class Plugin
 	 * @param  string $file The file from which the class is being instantiated.
 	 * @return object       The class instance.
 	 */
-	public static function getInstance($file)
+	public static function getInstance($file = __FILE__)
 	{
 		if (!isset(self::$instance) && !(self::$instance instanceof Plugin)) {
 			self::$instance = new Plugin;
@@ -80,7 +80,7 @@ class Plugin
 	public function changeTemplate($template)
 	{
 		if (get_query_var('shpdf', false) !== false) {
-			$newTemplate = $this->getTemplate();
+			$newTemplate = $this->getTemplate(true);
 			if ($newTemplate) {
 				return $newTemplate;
 			}
@@ -94,22 +94,71 @@ class Plugin
 	 * Find the template - is it in the Theme/Child Theme or in the Plugin?
 	 * @return mixed Path to the template file or null if none found
 	 */
-	private function getTemplate()
+	private function getTemplate($url_request = false)
 	{
 		// Check theme / child theme directory
 		// Use the filter in your theme to customize the theme template array
 		$template = locate_template(apply_filters('hello-post-to-pdf/theme-templates', ['single-hello-post-to-pdf.php']));
-		if ($template !== '') {
-			return $template;
-		}
- 
-		// Check plugin directory next
-		$template = plugin_dir_path(self::$instance->file) . 'templates/simple.php';
-		if (file_exists($template)) {
-			return $template;
+		if ($template == '') {
+			// Check plugin directory next
+			$template = plugin_dir_path(self::getInstance()->file) . 'templates/simple.php';
+			if (!file_exists($template)) {
+				return null;
+			}
 		}
 
-		return null;
+		$filesystem = new FileSystem();
+		$filepath = $filesystem->getFilepath(get_the_ID());
+
+		if ($filepath) {
+			ob_start();
+			include($template);
+			$html = ob_get_contents();
+			ob_end_clean();
+
+			$pdf = $this->getPdfConvertorObject();
+			$pdf->addPage($html);
+
+			if ($url_request) {
+				if (!$pdf->send()) {
+					if (defined('WP_DEBUG') && WP_DEBUG === true) {
+						$error = $pdf->getError();
+						var_dump($error);
+						exit;
+					}
+					wp_die(_x('An unavoidable error occurred when creating the PDF.', 'Error message', 'hello-post-to-pdf'), 500);
+					exit;
+				}
+			}
+
+			if (!$pdf->saveAs($filepath)) {
+				if (defined('WP_DEBUG') && WP_DEBUG === true) {
+					$error = $pdf->getError();
+					var_dump($error);
+					exit;
+				}
+				wp_die(_x('An unavoidable error occurred when saving the PDF to the server.', 'Error message', 'hello-post-to-pdf'), 500);
+				exit;
+			}
+		}
 	}
 
+	public function getPdfConvertorObject()
+	{
+		if (defined('WP_ENV') && WP_ENV === 'VVV') {
+			// This is the special version for a local VVV environment.
+			// You won't usually need to use this.
+			return new Pdf([
+				'binary' => '/usr/bin/wkhtmltopdf.sh',
+				'ignoreWarnings' => true,
+				'commandOptions' => ['useExec' => true],
+			]);
+		} else {
+			// This is the standard version for cubetech servers
+			return new Pdf([
+				'ignoreWarnings' => true,
+				'commandOptions' => ['useExec' => true],
+			]);
+		}
+	}
 }

@@ -13,6 +13,10 @@ class ComposerStaticInita35015a35a4a9f1f5bd2d93dbb03cf26
             'mikehaertl\\tmp\\' => 15,
             'mikehaertl\\shellcommand\\' => 24,
         ),
+        'S' => 
+        array (
+            'SayHello\\PostToPDF\\' => 19,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -27,6 +31,10 @@ class ComposerStaticInita35015a35a4a9f1f5bd2d93dbb03cf26
         'mikehaertl\\shellcommand\\' => 
         array (
             0 => __DIR__ . '/..' . '/mikehaertl/php-shellcommand/src',
+        ),
+        'SayHello\\PostToPDF\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/Classes',
         ),
     );
 
