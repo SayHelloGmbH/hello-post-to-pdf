@@ -58,6 +58,10 @@ class Plugin
 		load_plugin_textdomain('hello-post-to-pdf', false, dirname(plugin_basename($this->file)) . '/languages');
 	}
 
+	/**
+	 * Flush rewrite rules on plugin activation
+	 * @return void
+	 */
 	public function rewrite()
 	{
 		add_rewrite_endpoint('shpdf', EP_PERMALINK);
@@ -68,19 +72,16 @@ class Plugin
 		}
 	}
 
+	/**
+	 * Potentially use a different PHP template if the custom rewrite rule matches
+	 * @param  string $template Default (current) template path
+	 * @return string           Potentially modified template path
+	 */
 	public function changeTemplate($template)
 	{
-
 		if (get_query_var('shpdf', false) !== false) {
-			//Check theme directory first
-			$newTemplate = locate_template(['template-hello-post-to-pdf.php']);
-			if ('' != $newTemplate) {
-				return $newTemplate;
-			}
- 
-			//Check plugin directory next
-			$newTemplate = plugin_dir_path(self::$instance->file) . 'templates/simple.php';
-			if (file_exists($newTemplate)) {
+			$newTemplate = $this->getTemplate();
+			if ($newTemplate) {
 				return $newTemplate;
 			}
 		}
@@ -88,4 +89,27 @@ class Plugin
 		//Fall back to original template
 		return $template;
 	}
+
+	/**
+	 * Find the template - is it in the Theme/Child Theme or in the Plugin?
+	 * @return mixed Path to the template file or null if none found
+	 */
+	private function getTemplate()
+	{
+		// Check theme / child theme directory
+		// Use the filter in your theme to customize the theme template array
+		$template = locate_template(apply_filters('hello-post-to-pdf/theme-templates', ['single-hello-post-to-pdf.php']));
+		if ($template !== '') {
+			return $template;
+		}
+ 
+		// Check plugin directory next
+		$template = plugin_dir_path(self::$instance->file) . 'templates/simple.php';
+		if (file_exists($template)) {
+			return $template;
+		}
+
+		return null;
+	}
+
 }
