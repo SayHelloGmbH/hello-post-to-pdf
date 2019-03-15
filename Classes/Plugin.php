@@ -40,7 +40,7 @@ class Plugin
 	 */
 	private function run()
 	{
-		$this->allowed_post_types = apply_filters('hello-post-to-pdf/allowed-post-types', ['post']);
+		$this->allowed_post_types = ['post'];
 
 		add_action('plugins_loaded', [$this, 'loadPluginTextdomain']);
 		register_activation_hook(self::$instance->file, [$this, 'activate']);
@@ -102,7 +102,7 @@ class Plugin
 		// Check theme / child theme directory
 		// Use the filter in your theme to customize the theme template array
 		
-		if (!in_array(get_post_type(), $this->allowed_post_types)) {
+		if (!in_array(get_post_type(), apply_filters('hello-post-to-pdf/allowed-post-types', $this->allowed_post_types))) {
 			wp_die('<p>'._x('PDF generation is not available for this content type.', 'Error message', 'hello-post-to-pdf').'</p>'.
 				sprintf(
 					'<p><a href="%1$s">%2$s</a></p>',
