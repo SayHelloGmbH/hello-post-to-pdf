@@ -47,6 +47,10 @@ add_filter('hello-post-to-pdf/theme-templates', function(array $paths){
 
 ## Changelog
 
+### 1.0.1
+
+* Fix allowed post types sequencing.
+
 ### 1.0.0
 
 * Add simple template.
