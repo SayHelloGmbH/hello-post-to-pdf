@@ -1,5 +1,16 @@
 {
+    "name": "sayhellogmbh/hello-post-to-pdf",
+    "version": "0.0.1",
+    "description": "Adds a URL suffix which allows the site visitor to download the selected Post as a PDF.",
+    "keywords": ["wordpress", "sayhellogmbh", "pdf"],
+    "license": "MIT",
+    "type": "wordpress-plugin",
     "require": {
         "mikehaertl/phpwkhtmltopdf": "^2.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SayHello\\PostToPDF\\": "Classes/"
+        }
     }
 }
