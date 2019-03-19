@@ -174,17 +174,38 @@ class Plugin
 		if (defined('WP_ENV') && WP_ENV === 'VVV') {
 			// This is the special version for a local VVV environment.
 			// You won't usually need to use this.
-			return new Pdf([
-				'binary' => '/usr/bin/wkhtmltopdf.sh',
-				'ignoreWarnings' => true,
-				'commandOptions' => ['useExec' => true],
-			]);
+			// Margins etc are set in mm
+			return new Pdf(
+				[
+					'binary'         => '/usr/local/bin/wkhtmltopdf',
+					'ignoreWarnings' => true,
+					'margin-top'     => 40,
+					'margin-bottom'  => 15,
+					'margin-left'    => 0,
+					'margin-right'   => 0,
+					'disable-smart-shrinking',
+					'header-spacing' => 5,
+					'footer-spacing' => 4,
+					'header-html'    => get_template_directory_uri() . '/inc/pdf-header-standalone.php',
+					'footer-html'    => get_template_directory_uri() . '/inc/pdf-footer-standalone.php?id=' . get_the_ID() . $language_slug, // e.g.
+				]
+			);
 		} else {
-			// This is the standard version for cubetech servers
-			return new Pdf([
-				'ignoreWarnings' => true,
-				'commandOptions' => ['useExec' => true],
-			]);
+			// This is the standard version
+			return new Pdf(
+				[
+					'ignoreWarnings' => true,
+					'margin-top'     => 40,
+					'margin-bottom'  => 15,
+					'margin-left'    => 0,
+					'margin-right'   => 0,
+					'disable-smart-shrinking',
+					'header-spacing' => 5,
+					'footer-spacing' => 4,
+					'header-html'    => get_template_directory_uri() . '/inc/pdf-header-standalone.php',
+					'footer-html'    => get_template_directory_uri() . '/inc/pdf-footer-standalone.php?id=' . get_the_ID() . $language_slug, // e.g.
+				]
+			);
 		}
 	}
 }
