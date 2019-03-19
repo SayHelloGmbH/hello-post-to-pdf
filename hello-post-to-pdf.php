@@ -4,7 +4,7 @@ Plugin Name: Post To PDF
 Plugin URI: https://gitlab.com/say-hello/plugins/hello-post-to-pdf
 Description: Adds a URL suffix which allows the site visitor to download the selected Post as a PDF.
 Author: Say Hello GmbH (hello@sayhello.ch)
-Version: 1.0.1
+Version: 1.1.0
 Author URI: https://sayhello.ch/
 Text Domain: hello-post-to-pdf
 Domain Path: /languages

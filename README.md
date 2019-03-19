@@ -11,6 +11,8 @@ Adds a URL suffix which allows the site visitor to download the selected Post as
 
 The plugin contains a default, very simple PDF template. You can override it with a template in your Theme.
 
+It also contains a very specific example config. for the PDF object. This will need to be parameterized in a future version.
+
 ### Allowed post types
 
 By default, only Posts of type `post` are permitted. To allow rendering of other Post Types, use the following hook in your Theme.
@@ -46,6 +48,12 @@ add_filter('hello-post-to-pdf/theme-templates', function(array $paths){
 ```
 
 ## Changelog
+
+### 1.1.0
+
+* Fixes for Coding Standards.
+* More complete config example.
+* Adds language suffix to filename if WPML is active.
 
 ### 1.0.1
 
