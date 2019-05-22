@@ -3,8 +3,12 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<?php
-	if (file_exists(plugin_dir_path(trailingslashit(dirname(__FILE__))).'../assets/dist/styles/hello-post-to-pdf.css')) {
-		printf('<style>%s</style>', file_get_contents(plugin_dir_path(trailingslashit(dirname(__FILE__))).'../assets/dist/styles/hello-post-to-pdf.css'));
+	$css_file = trailingslashit(dirname(dirname(__FILE__))).'assets/dist/styles/plugin.css';
+	if (file_exists($css_file)) {
+		printf(
+			'<style>%s</style>',
+			file_get_contents($css_file)
+		);
 	}
 	?>
 	</head>
@@ -43,10 +47,12 @@
 			);
 
 			printf(
-				'<p class="c-posttopdf__footer">%s</p><hr>',
+				'<p class="c-posttopdf__footer">%1$s</p><hr>',
 				sprintf(
-					_x('PDF generation plugin by %s', 'Credit footer in generated PDF', 'hello-post-to-pdf'),
-					'<a href="https://sayhello.ch/">Say Hello GmbH</a>'
+					_x('Originally published at %1$s on %2$s<br>%3$s', 'Text in PDF template', 'hello-post-to-pdf'),
+					get_bloginfo('name'),
+					get_the_date(),
+					get_permalink()
 				)
 			);
 		}
