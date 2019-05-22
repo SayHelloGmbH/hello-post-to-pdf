@@ -5,12 +5,23 @@
 Regular CSS by Say Hello GmbH - sayhello.ch
 
 */
+%nosplit {
+    page-break-before: auto;
+    page-break-after: auto;
+    page-break-inside: avoid;
+}
+
+* {
+    max-width: 100%;
+}
+
 body,
 html {
     margin: 0;
     padding: 0;
     color: #111;
     font-family: -apple-system, linkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-size: 10pt;
 }
 
 a {
@@ -18,14 +29,46 @@ a {
 }
 
 img {
-    page-break-before: auto;
-    page-break-after: auto;
-    page-break-inside: avoid;
+    height: auto;
+    @extend %nosplit;
+}
+
+blockquote {
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 1rem;
+    border-left: 2px solid currentColor;
+    font-style: italic;
+}
+
+figure {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+embed,
+iframe,
+video {
+    @extend %nosplit;
+}
+
+.wp-caption {
+    font-size: 85%;
+}
+
+.alignleft {
+    float: left;
+    margin: 0 1rem 1rem 0;
+}
+
+.alignright {
+    float: right;
+    margin: 0 0 1rem 1rem;
 }
 
 .c-posttopdf {
     margin: 0 auto;
-    max-width: 40rem;
+    max-width: 18cm;
 
     &__title {
         font-size: 2rem;
@@ -41,8 +84,10 @@ img {
     }
 
     &__footer {
+        clear: both;
         margin: 0;
         color: gray;
+        @extend %nosplit;
     }
 
     &__thumbnail {
