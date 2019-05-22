@@ -34,8 +34,12 @@ class FileSystem
 		$language_suffix = '';
 
 		if (function_exists('wpml_get_language_information')) {
+			// WPML
 			$language_information = wpml_get_language_information($post_id);
 			$language_suffix      = isset($language_information['language_code']) && ! empty($language_information['language_code']) ? '-' . $language_information['language_code'] : '';
+		} elseif (function_exists('pll_get_post_language')) {
+			// Polylang
+			$language_suffix      = pll_get_post_language($post_id);
 		}
 
 		$filepath = implode(
