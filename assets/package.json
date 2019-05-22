@@ -1,0 +1,41 @@
+{
+    "name": "hello-post-to-pdf",
+    "version": "2.0.0",
+    "description": "Adds a URL suffix which allows the site visitor to download the selected Post as a PDF",
+    "main": "gulpfile.babel.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/SayHelloGmbH/hello-post-to-pdf.git"
+    },
+    "keywords": [
+        "pdf",
+        "post",
+        "to",
+        "pdf",
+        "export"
+    ],
+    "author": "Say Hello GmbH",
+    "license": "LGPL-3.0-or-later",
+    "bugs": {
+        "url": "https://github.com/SayHelloGmbH/hello-post-to-pdf/issues"
+    },
+    "homepage": "https://github.com/SayHelloGmbH/hello-post-to-pdf#readme",
+    "devDependencies": {
+        "node-sass": "^4.11.0",
+        "yargs": "^13.2.2",
+        "@babel/core": "^7.4.3",
+        "@babel/preset-env": "^7.4.3",
+        "@babel/register": "^7.4.0",
+        "autoprefixer": "^9.5.1",
+        "del": "^4.1.0",
+        "gulp": "^4",
+        "gulp-clean-css": "^4.0.0",
+        "gulp-if": "^2.0.2",
+        "gulp-postcss": "^8.0.0",
+        "gulp-sass": "^4.0.2",
+        "gulp-sourcemaps": "^2.6.5"
+    }
+}
