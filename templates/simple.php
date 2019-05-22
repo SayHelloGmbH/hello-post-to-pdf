@@ -22,10 +22,8 @@
 			the_post();
 
 			printf(
-				'<h1 class="c-posttopdf__title">%1$s</h1><p class="c-posttopdf__subtitle">%2$s %3$s</p>',
-				get_the_title(),
-				_x('Published on', 'Post ID prefix text', 'hello-post-to-pdf'),
-				get_the_date()
+				'<h1 class="c-posttopdf__title">%s</h1>',
+				get_the_title()
 			);
 
 			if (has_post_thumbnail()) {
