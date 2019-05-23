@@ -45,7 +45,7 @@ class Plugin
 
 		add_action('plugins_loaded', [ $this, 'loadPluginTextdomain' ]);
 		register_activation_hook(self::$instance->file, [ $this, 'activate' ]);
-		register_deactivation_hook(self::$instance->file, [ $this, 'deactivate' ]);
+		register_deactivation_hook(self::$instance->file, [ $this, 'purge' ]);
 		add_action('init', [ $this, 'rewrite' ]);
 		add_action('template_include', [ $this, 'changeTemplate' ]);
 	}
@@ -55,7 +55,7 @@ class Plugin
 		set_transient('hello-post-to-pdf_flush', 1, 60);
 	}
 
-	public function deactivate()
+	public function purge()
 	{
 		if (get_transient('hello-post-to-pdf_flush')) {
 			delete_transient('hello-post-to-pdf_flush');
@@ -77,12 +77,9 @@ class Plugin
 	 */
 	public function rewrite()
 	{
-		 add_rewrite_endpoint('shpdf', EP_PERMALINK | EP_PAGES);
+		add_rewrite_endpoint('shpdf', EP_PERMALINK | EP_PAGES);
 
-		if (get_transient('hello-post-to-pdf_flush')) {
-			delete_transient('hello-post-to-pdf_flush');
-			flush_rewrite_rules();
-		}
+		$this->purge();
 	}
 
 	/**
