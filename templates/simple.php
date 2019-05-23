@@ -2,52 +2,19 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<link href="https://sayhellogmbh.github.io/css-reset/css-reset.css" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,700,700i" rel="stylesheet">
-	<style>
-		html, body {
-			margin: 0;
-			padding: 0;
-			color: #111;
-			font-family: 'Source Sans Pro', sans-serif;
-		}
-		a {
-			color: inherit;
-		}
-		.c-posttopdf {
-			margin: 0 auto;
-			max-width: 40rem;
-		}
-		.c-posttopdf__title {
-			font-size: 2rem;
-			line-height: 1.2;
-			margin: 1rem 0;
-		}
-		.c-posttopdf__subtitle {
-			font-size: .85rem;
-			line-height: 1.2;
-			margin: 1rem 0 2rem;
-			color: gray;
-		}
-		.c-posttopdf__footer {
-			margin: 0;
-			color: gray;
-		}
-		.c-posttopdf__thumbnail {
-			display: block;
-			width: 100%;
-			margin: 1rem 0;
-		}
-		img {
-			page-break-before: auto;
-			page-break-after: auto;
-			page-break-inside: avoid;
-		}
-	</style>
-</head>
-<body>
+	<?php
+	$css_file = trailingslashit(dirname(dirname(__FILE__))).'assets/dist/styles/plugin.css';
+	if (file_exists($css_file)) {
+		printf(
+			'<style>%s</style>',
+			file_get_contents($css_file)
+		);
+	}
+	?>
+	</head>
+	<body>
 
-<div class="c-posttopdf">
+	<div class="c-posttopdf">
 	<?php
 
 	if (have_posts()) {
@@ -55,10 +22,8 @@
 			the_post();
 
 			printf(
-				'<h1 class="c-posttopdf__title">%1$s</h1><p class="c-posttopdf__subtitle">%2$s %3$s</p>',
-				get_the_title(),
-				_x('Post ID', 'Post ID prefix text', 'hello-post-to-pdf'),
-				get_the_ID()
+				'<h1 class="c-posttopdf__title">%s</h1>',
+				get_the_title()
 			);
 
 			if (has_post_thumbnail()) {
@@ -80,10 +45,12 @@
 			);
 
 			printf(
-				'<p class="c-posttopdf__footer">%s</p><hr>',
+				'<p class="c-posttopdf__footer">%1$s</p><hr>',
 				sprintf(
-					_x('PDF generation plugin by %s', 'Credit footer in generated PDF', 'hello-post-to-pdf'),
-					'<a href="https://sayhello.ch/">Say Hello GmbH</a>'
+					_x('Originally published at %1$s on %2$s<br>%3$s', 'Text in PDF template', 'hello-post-to-pdf'),
+					get_bloginfo('name'),
+					get_the_date(),
+					get_permalink()
 				)
 			);
 		}
