@@ -4,18 +4,22 @@
 
 Adds a URL suffix which allows the site visitor to download the selected Post as a PDF.
 
+PDF generation occurs using an HTML document formatted with CSS, using [Michael Härtl's PHP code](https://github.com/mikehaertl/phpwkhtmltopdf) and the [wkhtmltopdf](https://wkhtmltopdf.org/) command line tool.
+
+### Licenses
+
+* [phpwkhtmltopdf by Mike Härtl](https://github.com/mikehaertl/phpwkhtmltopdf/) is provided under the terms of the [MIT](https://github.com/mikehaertl/phpwkhtmltopdf/blob/master/LICENSE) license.
+* The [wkhtmltopdf](https://github.com/wkhtmltopdf/wkhtmltopdf) command line tool is provided under the terms of the GPL v3 license.
+
 ## Usage
 
 * Install the plugin. This will flush the rewrite hooks, so that the custom rewrite endpoint `shpdf` becomes available.
 * Call your Post using the additional URL suffix `shpdf/` (e.g. https://example.com/2019/03/my-post/shpdf/).
-
-The plugin contains a default, very simple PDF template. You can override it with a template in your Theme.
-
-It also contains a very specific example config. for the PDF object. This will need to be parameterized in a future version.
+* The plugin contains a default, very simple PDF template. You can override it simply by adding your own template to your Theme or by passing an array of possible template paths.
 
 ### Allowed post types
 
-By default, only Posts of type `post` are permitted. To allow rendering of other Post Types, use the following hook in your Theme.
+By default, only Posts of type `post` and `page` are permitted. To allow rendering of other Post Types, use the following hook in your Theme.
 
 ```php
 add_filter('hello-post-to-pdf/allowed-post-types', function(array $allowed_post_types){
@@ -37,17 +41,36 @@ You need to always return an array of file paths which are relative to the Theme
 Example:
 
 ```php
-add_filter('hello-post-to-pdf/theme-templates', function(array $paths){
-	switch (get_post_type(get_the_ID())) {
-		case 'rezepte':
-			return ['single-rezepte-pdf.php'];
-		break;
-	}
-	return $paths;
+add_filter('hello-post-to-pdf/theme-templates', function(array $template_paths){
+	$template_paths = [
+		'templates/' .get_post_type($post_id). 'post-to-pdf.php',
+		'templates/post-to-pdf.php'
+	]
+	return $template_paths;
+}, 10, 1);
+```
+
+### Modifying the PDF generation wrapper options
+
+You can modify the standard set of [PDF wrapper options](https://github.com/mikehaertl/phpwkhtmltopdf#wrapper-options) by using the `hello-post-to-pdf/generation-settings` hook.
+
+```php
+add_filter('hello-post-to-pdf/generation-settings', function(array $settings){
+	return array_merge($settings, [
+		'margin-top' => 20,
+		'margin-bottom' => 20
+	]);
 }, 10, 1);
 ```
 
 ## Changelog
+
+### 2.0.0
+
+* Improves previous code.
+* Adds safety checks.
+* Adds `hello-post-to-pdf/generation-settings` filter.
+* Extends README and provides licensing information.
 
 ### 1.1.0
 
@@ -72,10 +95,8 @@ add_filter('hello-post-to-pdf/theme-templates', function(array $paths){
 
 ## Contributors
 
-* Mark Howells-Mead (mark@sayhello.ch)
+* Say Hello GmbH - Mark Howells-Mead (mark@sayhello.ch)
 
 ## License
 
-Use this code freely, widely and for free. Provision of this code provides and implies no guarantee.
-
-Please respect the GPL v3 licence, which is available via http://www.gnu.org/licenses/gpl-3.0.html
+Use of this code provides and implies no guarantee. Please respect the GPL v3 licence, which is available via http://www.gnu.org/licenses/gpl-3.0.html
