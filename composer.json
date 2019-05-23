@@ -1,6 +1,6 @@
 {
     "name": "sayhellogmbh/hello-post-to-pdf",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "description": "Adds a URL suffix which allows the site visitor to download the selected Post as a PDF.",
     "keywords": ["wordpress", "sayhellogmbh", "pdf", "generate pdf", "make pdf"],
     "license": "GPL-3.0-or-later",
