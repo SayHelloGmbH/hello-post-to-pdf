@@ -6,11 +6,6 @@ Adds a URL suffix which allows the site visitor to download the selected Post as
 
 PDF generation occurs using an HTML document formatted with CSS, using [Michael Härtl's PHP code](https://github.com/mikehaertl/phpwkhtmltopdf) and the [wkhtmltopdf](https://wkhtmltopdf.org/) command line tool.
 
-### Licenses
-
-* [phpwkhtmltopdf by Mike Härtl](https://github.com/mikehaertl/phpwkhtmltopdf/) is provided under the terms of the [MIT](https://github.com/mikehaertl/phpwkhtmltopdf/blob/master/LICENSE) license.
-* The [wkhtmltopdf](https://github.com/wkhtmltopdf/wkhtmltopdf) command line tool is provided under the terms of the GPL v3 license.
-
 ## Usage
 
 * Install the plugin. This will flush the rewrite hooks, so that the custom rewrite endpoint `shpdf` becomes available.
@@ -65,6 +60,10 @@ add_filter('hello-post-to-pdf/generation-settings', function(array $settings){
 
 ## Changelog
 
+### 2.0.1
+
+* Fix security warning advised by Github.
+
 ### 2.0.0
 
 * Improves previous code.
@@ -99,4 +98,8 @@ add_filter('hello-post-to-pdf/generation-settings', function(array $settings){
 
 ## License
 
-Use of this code provides and implies no guarantee. Please respect the GPL v3 licence, which is available via http://www.gnu.org/licenses/gpl-3.0.html
+* [phpwkhtmltopdf by Mike Härtl](https://github.com/mikehaertl/phpwkhtmltopdf/) is provided under the terms of the [MIT](https://github.com/mikehaertl/phpwkhtmltopdf/blob/master/LICENSE) license.
+* The [wkhtmltopdf](https://github.com/wkhtmltopdf/wkhtmltopdf) command line tool is provided under the terms of the GPL v3 license.
+* The remaining code in the plugin is provided under the terms of the GPL v3 license.
+
+Use of this code provides and implies no guarantee.
