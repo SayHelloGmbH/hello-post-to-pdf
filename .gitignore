@@ -2,3 +2,4 @@
 *.po~
 *.pot~
 *.mo~
+node_modules
